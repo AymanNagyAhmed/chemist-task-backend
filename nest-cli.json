@@ -4,5 +4,13 @@
   "sourceRoot": "src",
   "compilerOptions": {
     "deleteOutDir": true
-  }
+  },
+  "generateOptions": {
+    "spec": true,
+    "flat": false
+  },
+  "defaultProject": "src",
+  "monorepo": false,
+  "projects": {},
+  "entryFile": "main"
 }
