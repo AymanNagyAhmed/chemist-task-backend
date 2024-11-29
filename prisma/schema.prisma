@@ -1,0 +1,58 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider          = "mysql"
+  url               = env("DATABASE_URL")
+}
+
+model PreferredLocation {
+  id          Int      @id @default(autoincrement())
+  locationName String  @map("location_name") @db.VarChar(50)
+  users       User[]   // Changed to allow multiple users per location
+  
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  @@map("preferred_locations")
+}
+
+model ProgrammingSkill {
+  id          Int      @id @default(autoincrement())
+  name        String   @unique @map("name") @db.VarChar(50)
+  users       UsersOnProgrammingSkills[]
+  
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  @@map("programming_skills")
+}
+
+model User {
+  id               Int                @id @default(autoincrement())
+  email            String             @unique
+  fullName         String?            @map("full_name") @db.VarChar(50)
+  dateOfBirth      DateTime?          @map("date_of_birth") @db.Date
+  preferredLocation PreferredLocation? @relation(fields: [preferredLocationId], references: [id])
+  preferredLocationId Int?            @map("preferred_location_id")
+  resumeSummary    String?            @map("resume_summary") @db.Text
+  password         String
+  programmingSkills UsersOnProgrammingSkills[]
+  
+  createdAt        DateTime           @default(now()) @map("created_at")
+  updatedAt        DateTime           @updatedAt @map("updated_at")
+
+  @@map("users")
+}
+
+model UsersOnProgrammingSkills {
+  user              User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId            Int             @map("user_id")
+  programmingSkill  ProgrammingSkill @relation(fields: [programmingSkillId], references: [id], onDelete: Cascade)
+  programmingSkillId Int            @map("programming_skill_id")
+  assignedAt        DateTime        @default(now()) @map("assigned_at")
+
+  @@id([userId, programmingSkillId])
+  @@map("users_programming_skills")
+}
