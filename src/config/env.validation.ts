@@ -9,7 +9,7 @@ export const validationSchema = Joi.object({
 
   // CORS
   CORS_ORIGINS: Joi.string()
-    .default('http://localhost:3000,http://localhost:8000')
+    .default('http://localhost:4000,http://localhost:8000')
     .description('Comma-separated list of allowed origins'),
   CORS_METHODS: Joi.string()
     .default('GET,HEAD,PUT,PATCH,POST,DELETE')
