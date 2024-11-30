@@ -1,20 +1,23 @@
-import { Controller, Post, Body, Get, UseGuards, Req } from '@nestjs/common';
+import { Controller, Post, Body, Get, UseGuards, Req, UseInterceptors } from '@nestjs/common';
 import { Request } from 'express';
 import { LoginDto } from '@/modules/auth/dto/login.dto';
 import { AuthService } from '@/modules/auth/auth.service';
 import { LocalGuard } from '@/modules/auth/guards/local.guard';
 import { JwtAuthGuard } from '@/modules/auth/guards/jwt.guard';
+import { AuthResponse } from '@/modules/auth/interfaces/auth-response.interface';
+import { Public } from '@/modules/auth/decorators/public.decorator';
+import { ApiResponseInterceptor } from '@/common/interceptors/api-response.interceptor';
 
 @Controller('api/auth')
+@UseInterceptors(ApiResponseInterceptor)
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
+  @Public()
   @Post('login')
   @UseGuards(LocalGuard)
-  async login(@Body() loginDto: LoginDto) {
-    return {
-      access_token: await this.authService.validateUser(loginDto),
-    };
+  async login(@Body() loginDto: LoginDto): Promise<AuthResponse> {
+    return await this.authService.validateUser(loginDto);
   }
 
   @Get('status')

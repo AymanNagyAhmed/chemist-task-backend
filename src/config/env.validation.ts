@@ -8,9 +8,15 @@ export const validationSchema = Joi.object({
     .default('development'),
 
   // CORS
-  CORS_ORIGINS: Joi.string().default('*'),
-  CORS_METHODS: Joi.string().default('GET,HEAD,PUT,PATCH,POST,DELETE'),
-  CORS_CREDENTIALS: Joi.boolean().default(true),
+  CORS_ORIGINS: Joi.string()
+    .default('http://localhost:3000,http://localhost:8000')
+    .description('Comma-separated list of allowed origins'),
+  CORS_METHODS: Joi.string()
+    .default('GET,HEAD,PUT,PATCH,POST,DELETE')
+    .description('Comma-separated list of allowed HTTP methods'),
+  CORS_CREDENTIALS: Joi.boolean()
+    .default(true)
+    .description('Allow credentials'),
 
   // Database
   DB_HOST: Joi.string().required(),

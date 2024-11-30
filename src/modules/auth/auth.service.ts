@@ -1,7 +1,9 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { UsersService } from '@/modules/users/users.service';
-import { LoginDto } from './dto/login.dto';
+import { LoginDto } from '@/modules/auth/dto/login.dto';
+import { AuthResponse, AuthUserData } from '@/modules/auth/interfaces/auth-response.interface';
+import { Prisma } from '@prisma/client';
 import * as bcryptjs from 'bcryptjs';
 
 @Injectable()
@@ -11,8 +13,49 @@ export class AuthService {
     private usersService: UsersService,
   ) {}
 
-  async validateUser(loginDto: LoginDto): Promise<string> {
-    const user = await this.usersService.findUserByEmail(loginDto.email);
+  async validateUser(loginDto: LoginDto): Promise<AuthResponse> {
+    type UserWithRelations = {
+      id: number;
+      email: string;
+      fullName: string | null;
+      dateOfBirth: Date | null;
+      resumeSummary: string | null;
+      createdAt: Date;
+      updatedAt: Date;
+      preferredLocation: {
+        id: number;
+        locationName: string;
+      } | null;
+      programmingSkills: Array<{
+        userId: number;
+        programmingSkillId: number;
+        assignedAt: Date;
+        programmingSkill: {
+          id: number;
+          name: string;
+        };
+      }>;
+    };
+
+    const includeOptions: Prisma.UserInclude = {
+      preferredLocation: {select: {
+        id: true,
+        locationName: true,
+      },},
+      programmingSkills: {
+        include: {
+          programmingSkill: {
+            select: {
+              id: true,
+              name: true,
+            },
+          },
+        },
+      },
+    };
+
+    const user = await this.usersService.findUserByEmail(loginDto.email, includeOptions);
+    
     if (!user) {
       throw new UnauthorizedException('Invalid credentials');
     }
@@ -25,8 +68,29 @@ export class AuthService {
     const payload = { 
       sub: user.id, 
       email: user.email,
-      fullName: user.fullName
+      fullName: user.fullName,
     };
-    return this.jwtService.sign(payload);
+
+    // Create a user object without the password
+    const { password: _, ...userData } = user as unknown as UserWithRelations & { password: string };
+    
+    // Pick only the fields we need for AuthUserData
+    const transformedUser: AuthUserData = {
+      id: userData.id,
+      email: userData.email,
+      fullName: userData.fullName,
+      dateOfBirth: userData.dateOfBirth,
+      preferredLocation: userData.preferredLocation,
+      resumeSummary: userData.resumeSummary,
+      programmingSkills: userData.programmingSkills.map(skill => ({
+        id: skill.programmingSkill.id,
+        name: skill.programmingSkill.name
+      })),
+    };
+
+    return {
+      user: transformedUser,
+      access_token: this.jwtService.sign(payload),
+    };
   }
 }
