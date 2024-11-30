@@ -60,12 +60,10 @@ export class UsersService {
     });
   }
 
-  async findUserByEmail(email: string) {
+  async findUserByEmail(email: string, include?: Prisma.UserInclude) {
     return this.prisma.user.findUnique({
       where: { email },
-      include: {
-        preferredLocation: true,
-      },
+      include,
     });
   }
 
@@ -213,7 +211,7 @@ export class UsersService {
       // Transform the response structure
       const transformedResult = {
         ...result,
-        preferredLocation: result.preferredLocation ? [result.preferredLocation] : [],
+        preferredLocation: result.preferredLocation ? result.preferredLocation : {},
         programmingSkills: result.programmingSkills.map(skill => skill.programmingSkill)
       };
 
@@ -249,6 +247,6 @@ export class UsersService {
     }
     
     await this.prisma.user.delete({ where: { id } });
-    return { message: 'User deleted successfully' };
+    return { id, message: 'User deleted successfully' };
   }
 }
