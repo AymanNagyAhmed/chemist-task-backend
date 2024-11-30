@@ -3,6 +3,9 @@
   "collection": "@nestjs/schematics",
   "sourceRoot": "src",
   "compilerOptions": {
+    "plugins": ["@nestjs/swagger"],
+    "assets": ["**/*.proto"],
+    "watchAssets": true,
     "deleteOutDir": true
   },
   "generateOptions": {
