@@ -1,10 +1,12 @@
 import { Module } from '@nestjs/common';
-import { ConfigModule } from '@nestjs/config';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 import { AppController } from '@/app.controller';
 import { AppService } from '@/app.service';
 import { AuthModule } from '@/modules/auth/auth.module';
 import { UsersModule } from '@/modules/users/users.module';
 import { PrismaModule } from '@/prisma/prisma.module';
+import { PreferredLocationsModule } from '@/modules/preferred-locations/preferred-locations.module';
+import { ProgrammingSkillsModule } from '@/modules/programming-skills/programming-skills.module';
 import { validationSchema } from '@/config/env.validation';
 
 @Module({
@@ -20,6 +22,8 @@ import { validationSchema } from '@/config/env.validation';
     PrismaModule,
     AuthModule,
     UsersModule,
+    PreferredLocationsModule,
+    ProgrammingSkillsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
