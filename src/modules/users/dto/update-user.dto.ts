@@ -1,5 +1,4 @@
-import { IsEmail, IsOptional, IsString, IsDateString, MinLength, IsInt, IsArray } from 'class-validator';
-import { Transform, Type } from 'class-transformer';
+import { IsEmail, IsOptional, IsString, IsDateString, MinLength, IsNumber, IsArray } from 'class-validator';
 
 export class UpdateUserDto {
   @IsEmail()
@@ -7,32 +6,28 @@ export class UpdateUserDto {
   email?: string;
 
   @IsString()
-  @MinLength(8)
+  @MinLength(6)
   @IsOptional()
   password?: string;
 
   @IsString()
-  @MinLength(5, { message: 'fullName must be at least 5 characters long' })
-  fullName: string;
+  @IsOptional()
+  fullName?: string;
 
   @IsDateString()
-  dateOfBirth: string;
+  @IsOptional()
+  dateOfBirth?: string;
 
   @IsString()
-  @MinLength(5, { message: 'resumeSummary must be at least 5 characters long' })
-  resumeSummary: string;
+  @IsOptional()
+  resumeSummary?: string;
 
-  @Type(() => Number)
-  @IsInt({ message: 'preferredLocationId must be an integer' })
-  preferredLocationId: number;
+  @IsNumber()
+  @IsOptional()
+  preferredLocationId?: number;
 
   @IsArray()
-  @IsInt({ each: true })
-  @Transform(({ value }) => {
-    if (Array.isArray(value)) {
-      return [...new Set(value)];
-    }
-    return value;
-  })
-  programmingSkills: number[];
+  @IsNumber({}, { each: true })
+  @IsOptional()
+  programmingSkills?: number[];
 } 
