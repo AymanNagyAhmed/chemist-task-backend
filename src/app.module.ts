@@ -1,31 +1,30 @@
-import { Module } from '@nestjs/common';
-import { ConfigModule, ConfigService } from '@nestjs/config';
-import { AppController } from '@/app.controller';
-import { AppService } from '@/app.service';
+import { Module, NestModule, MiddlewareConsumer } from '@nestjs/common';
+import { ConfigModule } from '@nestjs/config';
 import { AuthModule } from '@/modules/auth/auth.module';
 import { UsersModule } from '@/modules/users/users.module';
-import { PrismaModule } from '@/prisma/prisma.module';
-import { PreferredLocationsModule } from '@/modules/preferred-locations/preferred-locations.module';
-import { ProgrammingSkillsModule } from '@/modules/programming-skills/programming-skills.module';
+import { AppController } from '@/app.controller';
+import { AppService } from '@/app.service';
 import { validationSchema } from '@/config/env.validation';
+import { PrismaModule } from '@/prisma/prisma.module';
+import { LoggingMiddleware } from '@/common/middleware/logging.middleware';
 
 @Module({
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
       validationSchema,
-      validationOptions: {
-        allowUnknown: true,
-        abortEarly: true,
-      },
     }),
     PrismaModule,
     AuthModule,
     UsersModule,
-    PreferredLocationsModule,
-    ProgrammingSkillsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule {}
+export class AppModule implements NestModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer
+      .apply(LoggingMiddleware)
+      .forRoutes('*');
+  }
+}

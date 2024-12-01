@@ -1,4 +1,4 @@
-import { Controller, Get, NotFoundException, All } from '@nestjs/common';
+import { Controller, Get, NotFoundException } from '@nestjs/common';
 import { AppService } from '@/app.service';
 import { ApiResponse } from '@/common/interfaces/api-response.interface';
 import { Public } from '@/modules/auth/decorators/public.decorator';
@@ -11,11 +11,5 @@ export class AppController {
   @Get()
   async getHello(): Promise<ApiResponse<{ message: string }>> {
     return this.appService.getHello();
-  }
-
-  @Public()
-  @All('*')
-  handleNotFound() {
-    throw new NotFoundException('Route not found');
   }
 }
