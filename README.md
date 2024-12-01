@@ -31,7 +31,8 @@
 3. npm install
 4. npm run prisma:generate
 5. npm run prisma:migrate
-6. npm run test
-7. npm run start:dev
-8. visit "localhost:4000"
+6. npm run prisma:seed
+7. npm run test
+8. npm run start:dev
+9. visit "localhost:4000"
 
