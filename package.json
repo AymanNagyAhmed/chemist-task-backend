@@ -25,10 +25,10 @@
     "test:e2e:ci": "npm run test:e2e:setup && npm run test:e2e",
     "prisma:studio": "prisma studio",
     "prisma:generate": "prisma generate",
-    "prisma:migrate": "prisma migrate dev",
+    "prisma:migrate": "prisma migrate",
     "prisma:format": "prisma format",
     "db:seed": "prisma db seed",
-    "prisma:seed": "ts-node prisma/seed.ts"
+    "prisma:seed": "prisma db seed"
   },
   "dependencies": {
     "@nestjs/common": "^10.0.0",

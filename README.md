@@ -1,19 +1,15 @@
-## Reposatories
-- Frontend [Reposatory](https://github.com/AymanNagyAhmed/chemist-task-frontend)
+## Repositories
+- [Frontend Repository](https://github.com/AymanNagyAhmed/chemist-task-frontend)
+- [Backend Repository](https://github.com/AymanNagyAhmed/chemist-task-backend)
+- [Install using docker](https://github.com/AymanNagyAhmed/chemist-task)
+- [Postman Collection](https://github.com/AymanNagyAhmed/chemist-task-backend/blob/main/Chemist-Warehouses-task.postman_collection.json)
 
-- Backend [Repository](https://github.com/AymanNagyAhmed/chemist-task-backend)
 
 ## Prerequisites
 - Node.js (v22.11.0)
 - MySQL Server
 - jest
 
-
-# Lets start by Backend [Repository](https://github.com/AymanNagyAhmed/chemist-task-backend)
-
-
-## Postman Collection 
-[Postman Collection](./Chemist-Warehouses-task.postman_collection.json)
 
 ## Database Configuration
 - Server: MySQL
@@ -22,7 +18,7 @@
 - Username: admin
 - Password: @12345Admin
 
-## Installation
+## Regular Installation [or Install using docker](https://github.com/AymanNagyAhmed/chemist-task)
 
 ### Local Development Setup
 
