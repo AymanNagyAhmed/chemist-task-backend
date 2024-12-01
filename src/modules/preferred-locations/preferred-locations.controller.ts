@@ -4,7 +4,7 @@ import { PreferredLocationDto } from '@/modules/preferred-locations/dto/preferre
 import { ApiResponseInterceptor } from '@/common/interceptors/api-response.interceptor';
 import { Public } from '@/modules/auth/decorators/public.decorator';
 
-@Controller('api/preferred-locations')
+@Controller('preferred-locations')
 @UseInterceptors(ApiResponseInterceptor)
 export class PreferredLocationsController {
   constructor(private readonly preferredLocationsService: PreferredLocationsService) {}

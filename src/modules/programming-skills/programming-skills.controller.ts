@@ -4,7 +4,7 @@ import { ProgrammingSkillDto } from '@/modules/programming-skills/dto/programmin
 import { ApiResponseInterceptor } from '@/common/interceptors/api-response.interceptor';
 import { Public } from '@/modules/auth/decorators/public.decorator';
 
-@Controller('api/programming-skills')
+@Controller('programming-skills')
 @UseInterceptors(ApiResponseInterceptor)
 export class ProgrammingSkillsController {
   constructor(private readonly programmingSkillsService: ProgrammingSkillsService) {}

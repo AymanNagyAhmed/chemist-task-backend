@@ -20,7 +20,7 @@ import { Request } from 'express';
 import { ApiResponseInterceptor } from '@/common/interceptors/api-response.interceptor';
 import { Public } from '@/modules/auth/decorators/public.decorator';
 
-@Controller('api/users')
+@Controller('users')
 @UseInterceptors(ApiResponseInterceptor)
 @UseGuards(JwtAuthGuard)
 export class UsersController {
