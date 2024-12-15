@@ -1,4 +1,3 @@
-
 interface ProgrammingSkillData {
   id: number;
   name: string;
@@ -16,6 +15,7 @@ export interface AuthUserData {
   dateOfBirth: Date | null;
   preferredLocation: PreferredLocation | null;
   resumeSummary: string | null;
+  profileImage: string | null;
   programmingSkills: ProgrammingSkillData[];
 }
 
