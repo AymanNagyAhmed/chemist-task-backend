@@ -32,4 +32,8 @@ export class CreateUserDto {
   @ValidateNested({ each: true })
   @Type(() => ProgrammingSkillDto)
   programmingSkills?: ProgrammingSkillDto[];
+
+  @IsString()
+  @IsOptional()
+  profileImage?: string;
 } 

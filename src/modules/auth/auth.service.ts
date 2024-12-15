@@ -35,6 +35,7 @@ export class AuthService {
           name: string;
         };
       }>;
+      profileImage: string | null;
     };
 
     const includeOptions: Prisma.UserInclude = {
@@ -86,6 +87,7 @@ export class AuthService {
         id: skill.programmingSkill.id,
         name: skill.programmingSkill.name
       })),
+      profileImage: userData.profileImage,
     };
 
     return {

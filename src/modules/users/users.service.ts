@@ -31,6 +31,7 @@ export class UsersService {
             }
           }))
         } : undefined,
+        profileImage: data.profileImage,
       },
       select: {
         id: true,
@@ -54,6 +55,7 @@ export class UsersService {
             }
           }
         },
+        profileImage: true,
         createdAt: true,
         updatedAt: true,
       },
@@ -91,6 +93,7 @@ export class UsersService {
             }
           }
         },
+        profileImage: true,
         createdAt: true,
         updatedAt: true,
       },
@@ -122,6 +125,7 @@ export class UsersService {
             }
           }
         },
+        profileImage: true,
         createdAt: true,
         updatedAt: true,
       },
@@ -164,6 +168,22 @@ export class UsersService {
       hashedPassword = await bcryptjs.hash(updateUserDto.password, salt);
     }
 
+    // Handle profile image path - extract only the relative path
+    let profileImagePath = updateUserDto.profileImage;
+    if (profileImagePath) {
+      try {
+        const url = new URL(profileImagePath);
+        // Extract the path starting from 'public/uploads/...'
+        const pathMatch = url.pathname.match(/\/?public\/uploads\/.*$/);
+        if (pathMatch) {
+          profileImagePath = pathMatch[0].replace(/^\//, ''); // Remove leading slash if present
+        }
+      } catch (e) {
+        // If it's not a valid URL, assume it's already a relative path
+        profileImagePath = updateUserDto.profileImage;
+      }
+    }
+
     try {
       const result = await this.prisma.user.update({
         where: { id },
@@ -180,6 +200,7 @@ export class UsersService {
               programmingSkillId: skillId
             }))
           } : undefined,
+          profileImage: profileImagePath,
         },
         select: {
           id: true,
@@ -203,6 +224,7 @@ export class UsersService {
               }
             }
           },
+          profileImage: true,
           createdAt: true,
           updatedAt: true,
         },

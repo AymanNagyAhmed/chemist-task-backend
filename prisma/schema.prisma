@@ -39,6 +39,7 @@ model User {
   resumeSummary    String?            @map("resume_summary") @db.Text
   password         String
   programmingSkills UsersOnProgrammingSkills[]
+  profileImage     String?            @map("profile_image") @db.Text
   
   createdAt        DateTime           @default(now()) @map("created_at")
   updatedAt        DateTime           @updatedAt @map("updated_at")
