@@ -25,9 +25,9 @@
 1. Clone the repository
 2. copy .env.dev to .env
 3. npm install
-4. npm run prisma:generate
-5. npm run prisma:migrate
-6. npm run prisma:seed
+4. npx prisma generate
+5. npx prisma migrate dev --name init
+6. npx prisma db seed
 7. npm run test
 8. npm run start:dev
 9. visit "localhost:4000"

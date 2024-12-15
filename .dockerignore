@@ -7,4 +7,5 @@ npm-debug.log
 .gitignore
 .docker
 .dockerignore
-README.md 
+README.md
+./prisma/migrations
